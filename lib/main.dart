@@ -30,6 +30,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<GlobalObjectKey> keyList =
+      List.generate(20, (index) => GlobalObjectKey(index));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: 20,
           itemBuilder: (context, index) {
             return Card(
+              key: keyList[index],
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -111,9 +115,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return GestureDetector(
         child: const Icon(Icons.more_vert),
         onTap: () {
+          RenderBox box =
+              keyList[index].currentContext!.findRenderObject() as RenderBox;
+          double cardYPosition = box.localToGlobal(Offset.zero).dy;
+
           showMenu(
               context: context,
-              position: const RelativeRect.fromLTRB(0, 0, 0, 0),
+              position:
+                  RelativeRect.fromLTRB(double.infinity, cardYPosition, 0, 0),
               items: menuItems);
         });
   }
