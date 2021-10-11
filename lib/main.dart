@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       "List element $index",
                       style: const TextStyle(fontSize: 22),
                     ),
-                    _buildPopupMenu(index)
+                    _buildPopupMenu(index, context)
                   ],
                 ),
               ),
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-  Widget _buildPopupMenu(int index) {
+  Widget _buildPopupMenu(int index, BuildContext context) {
     List<PopupMenuItem> menuItems = [
       const PopupMenuItem(
         child: SizedBox(
@@ -108,6 +108,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ];
 
-    return PopupMenuButton(itemBuilder: (BuildContext context) => menuItems);
+    return GestureDetector(
+        child: const Icon(Icons.more_vert),
+        onTap: () {
+          showMenu(
+              context: context,
+              position: const RelativeRect.fromLTRB(0, 0, 0, 0),
+              items: menuItems);
+        });
   }
 }
